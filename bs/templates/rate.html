@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="http://libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+    <script src="/static/js/echarts.js"></script>
+    <meta charset="UTF-8">
+    <title>评分</title>
+    <script src="/static/js/echarts.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<meta name="description" content="" />
+		<meta name="keywords" content="" />
+		<link rel="stylesheet" href="/static/assets/css/main.css" />
+
+</head>
+<body>
+                <!-- Header -->
+			<header id="header">
+                <a class="logo" href="/yingyong">Application</a>
+				<nav>
+					<a href="#menu">Menu</a>
+				</nav>
+			</header>
+
+<!-- Nav -->
+			<nav id="menu">
+				<ul class="links">
+					<li><a href="/">统计</a></li>
+					<li><a href="/rate">评分</a></li>
+				</ul>
+			</nav>
+
+		<!-- Heading -->
+			<div id="heading" >
+				<h1>Rate</h1>
+			</div>
+
+		<!-- Main -->
+			<section id="main" class="wrapper">
+				<div class="inner">
+					<div class="content">
+
+					<!-- Rate -->
+						<div class="row">
+							<div class="col-6 col-12-medium">
+
+
+<div id="time" style="width:750px;height:400px;margin: 0 auto;"></div>
+<div id="yearsc" style="width:750px;height:400px;margin: 0 auto;"></div>
+                                <div id="disum" style="width:750px;height:400px;margin: 0 auto;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+<script type="text/javascript">
+
+
+     //评分与时长
+       var myChart = echarts.init(document.getElementById('time'));
+    var app = {
+        xday:[],
+        yvalue:[]
+    };
+    // 发送ajax请求，从后台获取json数据
+    $(document).ready(function () {
+       getData();
+       console.log(app.xday);
+       console.log(app.yvalue)
+    });
+
+    function getData() {
+         $.ajax({
+            url:'/shichang',
+            data:{},
+            type:'POST',
+            async:false,
+            dataType:'json',
+            success:function(data) {
+                app.xday = data.xdays;
+                app.yvalue = data.yvalues;
+                var arrNum = [];
+                for (var i = 0; i < app.xday.length; i++){
+                   arrNum.push([app.yvalue[i],app.xday[i]]);
+                }
+                myChart.setOption({
+                    title: {
+                        text: '评分与时长'
+                    },
+                tooltip: {
+                        trigger: 'item',
+        showDelay : 0,
+        axisPointer:{
+            show: true,
+            type : 'cross',
+            lineStyle: {
+                type : 'dashed',
+                width : 1
+            }
+        },
+        formatter:function(data){
+            return data.value[0]+ '分钟 ' +'<br/>'+data.value[1]+ '分';
+        }
+
+                },
+                    xAxis: {
+                        type: 'value',
+
+                    },
+                     yAxis: {
+                        type: 'value',
+                         min: 0.0,
+                        max: 10.0,
+                     },
+                    series: [{
+                        name:"上映时间－评分",
+
+                        type: 'scatter',
+                        data:arrNum
+                    }]
+                })
+            },
+            error:function (msg) {
+                console.log(msg);
+                alert('系统发生错误');
+            }
+        })
+    };
+    //年份与评分
+      var myChart2 = echarts.init(document.getElementById('yearsc'));
+    var app2 = {
+        xday:[],
+        yvalue:[]
+    };
+    // 发送ajax请求，从后台获取json数据
+    $(document).ready(function () {
+       getData2();
+       console.log(app2.xday);
+       console.log(app2.yvalue)
+    });
+
+    function getData2() {
+         $.ajax({
+            url:'/yearscore',
+            data:{},
+            type:'POST',
+            async:false,
+            dataType:'json',
+            success:function(data) {
+                app2.xday = data.xdays;
+                app2.yvalue = data.yvalues;
+                var arrNum2 = [];
+                for (var i = 0; i < app2.xday.length; i++){
+                   arrNum2.push([app2.yvalue[i],app2.xday[i]]);
+                }
+                myChart2.setOption({
+                    title: {
+                        text: '评分与年份'
+                    },
+                tooltip: {
+                        trigger: 'item',
+        showDelay : 0,
+        axisPointer:{
+            show: true,
+            type : 'cross',
+            lineStyle: {
+                type : 'dashed',
+                width : 1
+            }
+        },
+        formatter:function(data2){
+            return data2.value[0]+ '年 ' +'<br/>'+data2.value[1]+ '分';
+        }
+
+                },
+                    xAxis: {
+                        type: 'value',
+                        min: 1920,
+                        max: 2020
+
+                    },
+                     yAxis: {
+                        type: 'value',
+
+                     },
+                    series: [{
+                        name:"上映时间－评分",
+
+                        type: 'scatter',
+                        data:arrNum2
+                    }]
+                })
+            },
+            error:function (msg) {
+                console.log(msg);
+                alert('系统发生错误');
+            }
+        })
+    };
+    //评分与评论人数
+
+       var myChart4 = echarts.init(document.getElementById('disum'));
+    var app4 = {
+        xday:[],
+        yvalue:[]
+    };
+    // 发送ajax请求，从后台获取json数据
+    $(document).ready(function () {
+       getData4();
+       console.log(app4.xday);
+       console.log(app4.yvalue)
+    });
+
+    function getData4() {
+         $.ajax({
+            url:'/renshu',
+            data:{},
+            type:'POST',
+            async:false,
+            dataType:'json',
+            success:function(data) {
+                app4.xday = data.xdays;
+                app4.yvalue = data.yvalues;
+                var arrNum = [];
+                for (var i = 0; i < app4.xday.length; i++){
+                   arrNum.push([app4.yvalue[i],app.xday[i]]);
+                }
+                myChart4.setOption({
+                    title: {
+                        text: '评分与人数'
+                    },
+                tooltip: {
+                        trigger: 'item',
+        showDelay : 0,
+        axisPointer:{
+            show: true,
+            type : 'cross',
+            lineStyle: {
+                type : 'dashed',
+                width : 1
+            }
+        },
+        formatter:function(data){
+            return data.value[0]+ '次评论 ' +'<br/>'+data.value[1]+ '分';
+        }
+
+                },
+                    xAxis: {
+                        type: 'value',
+                    },
+                     yAxis: {
+                        type: 'value',
+                         min: 0.0,
+                        max: 10.0,
+                     },
+                    series: [{
+                        name:"评论人数－评分",
+
+                        type: 'scatter',
+                        data:arrNum
+                    }]
+                })
+            },
+            error:function (msg) {
+                console.log(msg);
+                alert('系统发生错误');
+            }
+        })
+    };
+    </script>
+   <script src="/static/assets/js/jquery.min.js"></script>
+			<script src="/static/assets/js/browser.min.js"></script>
+			<script src="/static/assets/js/breakpoints.min.js"></script>
+			<script src="/static/assets/js/util.js"></script>
+			<script src="/static/assets/js/main.js"></script>
+</body>
+</html>

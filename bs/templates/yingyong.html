@@ -1,0 +1,349 @@
+﻿
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>电影</title>
+<meta name="keywords" content="电影" />
+<meta name="description" content="person music" />
+<link rel="stylesheet" type="text/css" href="/static/yingyong/css/style.css" />
+<link rel="stylesheet" type="text/css" href="/static/yingyong/css/player.css" />
+<link rel="Shortcut Icon" href="/static/yingyong/images/favicon.ico" />
+<script type="text/javascript" src="/static/yingyong/js/modernizr.js"></script>
+<script>
+if ((!to3d()) || document.documentMode == 10 || document.documentMode == 11){ 
+	window.location="error/error.html";
+}
+</script>
+    <style>
+
+.container {
+  position:  relative;
+  margin: auto;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 300px;
+  height: 100px;
+}
+.container .search {
+  position: absolute;
+  margin: auto;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  width: 80px;
+  height: 80px;
+  background: crimson;
+  border-radius: 50%;
+  transition: all 1s;
+  z-index: 4;
+  box-shadow: 0 0 25px 0 rgba(0, 0, 0, 0.4);
+}
+.container .search:hover {
+  cursor: pointer;
+}
+.container .search::before {
+  content: "";
+  position: absolute;
+  margin: auto;
+  top: 22px;
+  right: 0;
+  bottom: 0;
+  left: 22px;
+  width: 12px;
+  height: 2px;
+  background: white;
+  transform: rotate(45deg);
+  transition: all .5s;
+}
+.container .search::after {
+  content: "";
+  position: absolute;
+  margin: auto;
+  top: -5px;
+  right: 0;
+  bottom: 0;
+  left: -5px;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  border: 2px solid white;
+  transition: all .5s;
+}
+.container input {
+  font-family: 'Inconsolata', monospace;
+  position: absolute;
+  margin: auto;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  width: 50px;
+  height: 50px;
+  outline: none;
+  border: none;
+  background: crimson;
+  color: white;
+  text-shadow: 0 0 10px crimson;
+  padding: 0 80px 0 20px;
+  border-radius: 30px;
+  box-shadow: 0 0 25px 0 crimson, 0 20px 25px 0 rgba(0, 0, 0, 0.2);
+  transition: all 1s;
+  opacity: 0;
+  z-index: 5;
+  font-weight: bolder;
+  letter-spacing: 0.1em;
+}
+.container input:hover {
+  cursor: pointer;
+}
+.container input:focus {
+  width: 300px;
+  opacity: 1;
+  cursor: text;
+}
+.container input:focus ~ .search {
+  right: -250px;
+  background: #151515;
+  z-index: 6;
+}
+.container input:focus ~ .search::before {
+  top: 0;
+  left: 0;
+  width: 25px;
+}
+.container input:focus ~ .search::after {
+  top: 0;
+  left: 0;
+  width: 25px;
+  height: 2px;
+  border: none;
+  background: white;
+  border-radius: 0%;
+  transform: rotate(-45deg);
+}
+.container input::placeholder {
+  color: white;
+  opacity: 0.5;
+  font-weight: bolder;
+}
+
+#searchResult .movie_cover {
+    width: 150px;
+    height: 200px;
+    border-radius: 5px;
+    background-size: cover;
+    background-position: center;
+    position:relative;
+    transition: box-shadow .3s;
+    -o-transition: box-shadow .3s;
+    -ms-transition: box-shadow .3s;
+    -moz-transition: box-shadow .3s;
+    -webkit-transition: box-shadow .3s;
+
+}
+
+#searchResult .movie_cover:hover {
+    box-shadow: 10px 10px 20px rgba(20, 20, 20, 0.4);
+}
+
+
+
+#searchResult .movie .movie_info a {
+    text-decoration: none;
+    color: #6FA4CA;
+    transition: color .3s;
+    -o-transition: color .3s;
+    -ms-transition: color .3s;
+    -moz-transition: color .3s;
+    -webkit-transition: color .3s;
+    background-position: center;
+}
+
+#searchResult .movie .movie_info a:hover {
+    color: #24597F;
+}
+
+#searchResult .movie .movie_info p {
+    color: wheat;
+    margin-bottom: 0;
+    font-size: 12px;
+}
+
+    </style>
+</head>
+<body>
+
+
+
+<!--头部 开始-->
+<div id="header">
+    <!--顶部bar 开始-->
+
+    <div id="headCont">
+        <audio id="audioPlayer"></audio>
+    	<!--二级导航-->
+        <nav class="sub_nav">
+            <div class="nav_list">
+                <ul>
+                    <li>
+                    	<a href="/" class="smallogo">
+                        	<span class="mini_logo"></span>
+                        </a>
+                    </li>
+                    <li><a href="" class="home"></a></li>
+                    
+                    <div class="sub_list" id="sub_list">
+                        <p class="active">
+                        	<a href="?cat=9">鬼腳七 为你推荐：</a>
+                        </p>
+                    </div>
+                </ul>
+            </div>
+        </nav>
+    </div>
+  	<!--头部导航  结束-->
+</div>
+
+<!-- 模块 开始  default-->
+<section class="section_cont">
+    <!--轮播图 开始 -->
+    <div class="main_banner">
+        <div class="main_banner_bg"></div>
+        <div class="main_banner_wrap">
+            <div class="main_banner_box" id="m_box">
+                <a href="javascript:void(0)" class="banner_btn js_pre">
+                    <span class="banner_btn_arrow"><i></i></span>
+                </a>
+                <a href="javascript:void(0)" class="banner_btn btn_next js_next">
+                    <span class="banner_btn_arrow"><i></i></span>
+                </a>
+                <ul>
+                    <li id="imgCard0">
+                        <a href="https://movie.douban.com/subject/26806316/"><span style="opacity:0;"></span></a>
+                        <img src="/static/yingyong/images/6379255648231541697.jpg" alt="">
+                        <p style="bottom:0">我说的都是真的</p>
+                    </li> 
+                    <li id="imgCard1">
+                        <a href="https://movie.douban.com/subject/10574349/"><span style="opacity:0.4;"></span></a>
+                        <img src="/static/yingyong/images/p1974465176.webp" alt="">
+                        <p>嗜血战神</p>
+                    </li> 
+                    <li id="imgCard2">
+                        <a href="https://movie.douban.com/subject/5366663/"><span style="opacity:0.4;" ></span></a>
+                        <img src="/static/yingyong/images/p757419820.webp" alt="">
+                        <p>站着睡觉的树</p>
+                    </li> 
+                    <li id="imgCard3">
+                        <a href="https://movie.douban.com/subject/1877016/"><span style="opacity:0.4;"></span></a>
+                        <img src="/static/yingyong/images/u=1804474691,2372373338&fm=26&gp=0.jpg" alt="">
+                        <p>梦游夏威夷</p>
+                    </li> 
+                    <li id="imgCard4">
+                        <a href="https://movie.douban.com/subject/5401685/"><span style="opacity:0.4;"></span></a>
+                        <img src="/static/yingyong/images/s4568365.jpg" alt="">
+                        <p>离骚</p>
+                    </li> 
+                </ul>
+                <!--火狐倒影图层-->
+                <p id="rflt"></p>
+                <!--火狐倒影图层-->
+            </div>
+            <!--序列号按钮-->
+            <div class="btn_list">
+                <span class="cur"></span><span></span><span></span><span></span><span></span>        
+            </div>
+        </div>
+
+    </div>
+    <!--轮播图 结束 -->
+    <div id="box">
+        <div class="container">
+  <input type="text" name="keyword" class="form-control" placeholder="输入电影标题" onkeydown="entersearch()">
+
+  <div class="search"></div>
+    </div>
+
+         <div id="searchResult"style="width:1000px;height:auto;margin: 0 auto;">
+
+         </div>
+    </div>
+<script>
+  function entersearch(){
+        var e = event || window.event || arguments.callee.caller.arguments[0];
+        if(e && e.keyCode==13) {
+          var keyword = $('#box input[name="keyword"]').val();
+           $.ajax({
+                url: '{{url_for("keyword")}}',
+                type: 'POST',
+                data: {
+                    keyword: keyword
+                },
+                dataType: 'json',
+                error: function() {},
+                success: function(data) {
+                    $('#searchResult').empty();
+                    var  movies = data['movies'];
+                    var temp = '<p style="margin-bottom:20px;color:white">共<span style="color:#2A9662;margin-left:5px;margin-right:5px;">' + movies.length + '</span>条标题含<span style="color:#FF4949;margin-left:5px;margin-right:5px;">' + keyword + '</span>的电影</p>';
+                    $('#searchResult').append(temp)
+                    for (var i = 0; i < movies.length; i++) {
+                        var item = '<div class="movie"><a href="' + movies[i][2] + '" target="_blank"><div class="movie_cover" style="background-image:url('+ movies[i][3] + ')"></div></a><div class="movie_info"><h4><a href="' + movies[i][2] + '" target="_blank">' + movies[i][1] + '</a><span style="color:#44A031;font-size:14px;margin-left:5px;">';
+                        if (movies[i][11] != 0) {
+                            item = item + movies[i][11] + '年';
+                        }
+                        item = item + '</span><span style="color:#FB5151;font-size:14px;margin-left:5px;">' + movies[i][4] + '分</span></h4><p>导演&nbsp;&nbsp;' + movies[i][5] + '</p><p>编剧&nbsp;&nbsp;' + movies[i][6] + '</p><p>主演&nbsp;&nbsp;' + movies[i][7] + '</p><p>类型&nbsp;&nbsp;' + movies[i][8] + '</p><p>产地&nbsp;&nbsp;' + movies[i][9] + '</p><p>语言&nbsp;&nbsp;' + movies[i][10] + '</p><p>片长&nbsp;&nbsp;' + movies[i][12] + '分钟</p><p>又名&nbsp;&nbsp;' + movies[i][13] + '</p><h5 style="color:#555;">剧情简介</h5><p style="text-indent:2em;color:#777;height:auto">';
+
+                            item = item + movies[i][14] ;
+                        item = item + '</p></div></div>'+'<br/>';
+                        $('#searchResult').append(item);
+                    }
+        }})
+        };
+  }
+
+</script>
+
+
+
+<!--底部 开始 -->
+<div class="footer" id="footer">
+	<div class="footer_cont">
+    	<div class="footer_cont_left">
+        	<p>
+            	<a href="">About me</a>|<a href="">History</a>|<a href="">Cartoon</a>|
+                <a href="">Ad service</a>|<a href="">Movie link</a>|<a href="">Help</a>
+            </p>
+            <p>
+            	Copyright © Wch  All Rights Reserved
+            </p>
+        </div>
+        <div class="footer_cont_right">
+        	<span>Other Links</span>
+        	<ul>
+                <li><a href=""><span></span></a></li>
+                <li><a href=""><span></span></a></li>
+                <li>
+					<a href="">
+
+					</a>
+				</li>
+                <li><a href=""><span></span></a></li>
+                <li><a href=""><span></span></a></li>
+            </ul>
+        </div>
+        <div id="toTop"></div>
+    </div>
+
+</div>
+<!--底部 结束 -->
+<script type="text/javascript" src="/static/yingyong/js/jquery.js"></script>
+<script type="text/javascript" src="/static/yingyong/js/index.js"></script>
+
+<!-- 底部模板调用 结束 -->
+</body>
+</html>
+
+

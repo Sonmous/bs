@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="http://libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+
+    <script src="/static/js/echarts.js"></script>
+    <!-- 引入世界地图，上面链接可以下载，也可以用相关的json文件 -->
+<script src="/static/map/world.js" type="text/javascript" charset="utf-8"></script>
+
+    <meta charset="UTF-8">
+    <title>spark豆瓣电影数据分析</title>
+
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<meta name="description" content="" />
+		<meta name="keywords" content="" />
+		<link rel="stylesheet" href="/static/assets/css/main.css" />
+</head>
+<body class="is-preload">
+<!-- Header -->
+			<header id="header">
+                <a class="logo" href="/yingyong">Application</a>
+				<nav>
+					<a href="#menu">Menu</a>
+				</nav>
+			</header>
+
+<!-- Nav -->
+			<nav id="menu">
+				<ul class="links">
+					<li><a href="/">统计</a></li>
+					<li><a href="/rate">评分</a></li>
+				</ul>
+			</nav>
+
+		<!-- Heading -->
+			<div id="heading" >
+				<h1>Statistics</h1>
+			</div>
+
+		<!-- Main -->
+			<section id="main" class="wrapper">
+				<div class="inner">
+					<div class="content">
+
+					<!-- 标题格式 -->
+						<div class="row">
+							<div class="col-6 col-12-medium">
+
+<div id="echartsPie" style="width:1000px;height:400px;margin: 0 auto;"></div>
+<div id="yearcount" style="width:750px;height:400px;margin: 0 auto;"></div>
+<div id="worldmap" style="width: 1000px;height:750px;margin: 0 auto;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+<script type="text/javascript">
+
+    //类型数量
+    var myChart = echarts.init(document.getElementById('echartsPie'));
+    var app = {
+        xday:[],
+        yvalue:[]
+    };
+    // 发送ajax请求，从后台获取json数据
+    $(document).ready(function () {
+       getData();
+       console.log(app.xday);
+       console.log(app.yvalue)
+    });
+
+    function getData() {
+         $.ajax({
+            url:'/typecount',
+            data:{},
+            type:'POST',
+            async:false,
+            dataType:'json',
+            success:function(data) {
+                app.xday = data.xdays;
+                app.yvalue = data.yvalues;
+                var arrNum = [];
+                for (var i = 0; i < app.xday.length; i++){
+                    arrNum.push({"value": app.yvalue[i],"name":app.xday[i]});
+                }
+                myChart.setOption({
+                    title: {
+                        text: '各个类型影片比例'
+                    },
+                tooltip: {
+                    trigger: 'item',
+                    formatter: "{a} <br/>{b} : {c}部 ({d}%)"
+                },
+                    legend: {
+                        orient : 'vertical',
+		                 right: 'right',
+                        data:app.xday
+                    },
+                    series: [{
+                        name:"影片数量",
+                        type: 'pie',
+                        data:arrNum
+
+
+                    }]
+                })
+            },
+            error:function (msg) {
+                console.log(msg);
+                alert('系统发生错误');
+            }
+        })
+    };
+//年份数量
+ var myChart2 = echarts.init(document.getElementById('yearcount'));
+    var app2 = {
+        xday:[],
+        yvalue:[]
+    };
+    // 发送ajax请求，从后台获取json数据
+    $(document).ready(function () {
+       getData2();
+       console.log(app2.xday);
+       console.log(app2.yvalue)
+    });
+
+    function getData2() {
+         $.ajax({
+            url:'/yearcount',
+            data:{},
+            type:'POST',
+            async:false,
+            dataType:'json',
+            success:function(data) {
+                app2.xday = data.xdays;
+                app2.yvalue = data.yvalues;
+                myChart2.setOption({
+                    title: {
+                        text: '各个年份上映影片数量'
+                    },
+                    tooltip: {},
+                    xAxis: {
+                        type: 'category',
+                        data:app2.xday
+                            },
+                    yAxis: {
+                    type: 'value'
+                        },
+                    series: [{
+                        name:"影片数量",
+                        type: 'line',
+                        data:app2.yvalue
+                    }]
+                })
+            },
+            error:function (msg) {
+                console.log(msg);
+                alert('系统发生错误');
+            }
+        })
+    };
+
+var chart = echarts.init(document.getElementById("worldmap"));
+var geoCoordMap = {
+    富川:[139.70563,35.52829],
+    奥斯汀:[-97.74306,30.26944580007901],
+    休士顿:[-95.36905,29.76154605349234],
+    斯德哥尔摩:[17.93348550796509,59.65209998382503],
+    曼谷:[100.53366780281067,13.744939862322314],
+    吉隆坡:[101.71958,2.74793],
+    里斯本:[-9.136322736740112,38.70700465764603],
+    釜山:[129.07856,35.18148],
+    西安:[108.9594,34.2843],
+    亚松森:[-57.63747,-25.29807],
+    塔林:[24.74022,59.43873],
+    圣丹斯:[-111.85,40.76503],
+    赫尔辛基:[24.93716,60.17273],
+    澳门电影节:[113.55783,22.16378],
+    里约:[-43.210687637,-22.951611223],
+    首尔:[126.97505,37.56014],
+    安纳西:[6.14151,45.91997],
+    马尼拉:[121.25609,16.68356],
+    第比利斯:[44.78675,41.72243],
+    维也纳:[16.56333,48.12183],
+    圣塞巴斯蒂:[-1.9984,43.31956],
+    新德里:[77.21956,28.63296],
+    雅加达:[106.65376,-6.12728],
+    贝尔格莱德:[20.43792,44.79624],
+    华盛顿:[-77.07136,38.8944],
+    锡切斯:[2.17438,41.40358],
+    布鲁塞尔:[4.36232,50.84523],
+    巴利亚多利德:[-3.68938,40.42351],
+    西宁:[101.82642,36.58891],
+    布加勒斯特:[26.08734,44.42869],
+    广州:[113.25932,23.1434],
+    纽约:[-74.01528,40.71414],
+    塞巴斯蒂安:[-1.9984,43.31956],
+    洛迦诺:[9.0242,46.19561],
+    雅典:[23.94801,37.93657],
+    西雅图:[-122.27179,47.9219],
+    夕张:[141.33679,43.07638],
+    波士顿:[-71.07611,42.3499],
+    圣地亚哥:[-117.12965,32.6823],
+    华沙:[20.97175,52.17208],
+    芝加哥:[-87.60071,41.79142],
+    夏威夷:[-157.84087657928467,21.287834858307562],
+    耶路撒冷:[35.21723,31.76607],
+    阿斯塔纳:[71.45066,51.18287],
+    阿根廷:[-58.37229,-34.60842],
+    加利福尼亚州:[-117.91931,33.80708],
+    南非:[28.1879,-25.74413],
+    旧金山:[-122.40749,37.78797],
+    萨格勒布:[15.97146,45.77881],
+    亚特兰大:[-84.374,33.79023],
+    伯尔尼:[7.72052,46.68763],
+    莫斯科:[37.62271,55.75261],
+    巴西利亚:[-47.91129,-15.80679],
+    多伦多:[-79.39465,43.66349],
+    阿姆斯特丹:[4.7636,52.30583],
+    香港: [114.195466, 22.282751],
+    奥斯陆:[10.75328,59.90744],
+    莫雷利亚:[-86.85153,21.16283],
+    布宜诺斯艾利斯:[-58.43755,-34.60579],
+    东京:[139.70307,35.64813],
+    墨尔本: [144.999416, -37.781726],
+    哥本哈根:[12.59461,55.68051],
+    墨西哥: [-99.094092, 19.365711],
+    萨拉索塔:[-81.54962539672852,28.372021629162028],
+    爱丁堡:[-3.17509,55.92297],
+    北京:[116.4198,39.50338],
+    安卡拉:[32.85933,39.9282],
+    博尔德:[-104.67394,39.85953],
+    卡罗维发利:[12.87199,50.2327],
+    台北:[121.52187,25.0349],
+    休斯顿:[-95.41081,29.68532],
+    马拉加:[-4.41585,36.72116],
+    都柏林:[-6.24468,53.4276],
+    马德里:[-3.69308,40.41934],
+    巴黎:[2.33234,48.87352],
+    印第安纳波利斯:[-86.15778,39.77054750039529],
+    迈阿密:[-80.12838,25.78331],
+    昂热:[1.51723,47.61644],
+    柏林:[13.36998,52.51003],
+    堪培拉:[149.05191,-35.33808],
+    伦敦:[-0.07858,51.50476],
+    特柳赖德:[-105.22683,39.75098],
+    惠灵顿:[174.77963,-41.31877],
+    格拉斯哥:[-4.25181,55.86474],
+    阿拉斯加:[-149.01027,64.54297],
+    乌迪内:[13.30994,45.90617],
+    安锡:[6.86852,45.83263],
+    渥太华:[-75.66764,45.32195],
+    布拉格:[14.41604,50.08303],
+    索伦托:[14.24269,40.55149],
+    罗马:[8.68222,50.11045],
+    开罗:[31.23035,30.00534],
+    维尔纽斯:[25.28842,54.68198],
+    悉尼:[151.2095,-33.84766],
+    大阪:[135.43816,34.79032],
+    蒙特利尔:[-73.61433,45.50732],
+    南特:[1.07063,47.32519],
+    洛杉矶: [-118.24311, 34.052713],
+    上海: [121.4648, 31.2891],
+   布达佩斯:[19.07804,47.51527],
+    新加坡:[103.82258,1.25494],
+    威尼斯:[12.34518885612487,45.43476479603592],
+    戛纳:[7.01763,43.55362],
+};
+
+
+/*
+var BJData = [
+    [{
+        name: "尼日利亚",
+        value: 9100
+    }],
+    [{
+        name: "美国洛杉矶",
+        value: 2370
+    }],
+    [{
+        name: "香港邦泰",
+        value: 3130
+    }, {
+        name: "上海"
+    }],
+    [{
+        name: "美国芝加哥",
+        value: 2350
+    }],
+
+    [{
+        name: "澳大利亚墨尔本",
+        value: 3590
+    }],
+    [{
+        name: "墨西哥",
+        value: 3590
+    }],
+    [{
+        name: "加拿大温哥华",
+        value: 3590
+    }]
+];
+
+
+    var convertData = function (data) {
+                    var res = [];
+                    for (var i = 0; i < data.length; i++) {
+                        var dataItem = data[i];
+                        var fromCoord = geoCoordMap[dataItem[0].name];
+                        var toCoord = geoCoordMap[dataItem[1].name];
+                        if (fromCoord && toCoord) {
+                            res.push([{
+                                coord: fromCoord,
+                                value: dataItem[0].value
+                            },
+                                {
+                                    coord: toCoord
+                                }
+                            ]);
+                        }
+                    }
+                    return res;
+                };
+*/
+var app3 = {
+        xday:[],
+        yvalue:[]
+    };
+    // 发送ajax请求，从后台获取json数据
+    $(document).ready(function () {
+       getData3();
+       console.log(app3.xday);
+       console.log(app3.yvalue)
+    });
+
+    function getData3() {
+         $.ajax({
+            url:'/diqucount',
+            data:{},
+            type:'POST',
+            async:false,
+            dataType:'json',
+            success:function(data) {
+                app3.xday = data.xdays;
+                app3.yvalue = data.yvalues;
+                var BJData = [];
+                for (var i = 0; i < app3.xday.length; i++) {
+                    BJData.push([{"name": app3.xday[i], "value": app3.yvalue[i],}]);
+                }
+
+                var series = [];
+                [
+                    [BJData]
+                ].forEach(function (item, i) {
+                    series.push({
+                            type: "effectScatter",
+                            coordinateSystem: "geo",
+                            zlevel: 2,
+                            rippleEffect: {
+                                //涟漪特效
+                                period: 4, //动画时间，值越小速度越快
+                                brushType: "stroke", //波纹绘制方式 stroke, fill
+                                scale: 4 //波纹圆环最大限制，值越大波纹越大
+                            },
+                            label: {
+                                normal: {
+                                    show: true,
+                                    position: "right", //显示位置
+                                    offset: [5, 0], //偏移设置
+                                    formatter: "{b}" //圆环显示文字
+                                },
+                                emphasis: {
+                                    show: true
+                                }
+                            },
+                            symbol: "circle",
+                            symbolSize: function (val) {
+                                return 4 + val[2] / 50; //圆环大小
+                            },
+                            itemStyle: {
+                                normal: {
+                                    show: false,
+                                }
+                            },
+                            data: item[0].map(function (dataItem) {
+                                return {
+                                    name: dataItem[0].name,
+                                    value: geoCoordMap[dataItem[0].name].concat([dataItem[0].value])
+                                };
+                            })
+                        }
+                    );
+                });
+
+                chart.setOption({
+                    backgroundColor: '#000',
+                    tooltip: {
+                        trigger: "item",
+                        backgroundColor: "#1540a1",
+                        borderColor: "#FFFFCC",
+                        showDelay: 0,
+                        hideDelay: 0,
+                        enterable: true,
+                        transitionDuration: 0,
+                        extraCssText: "z-index:100",
+                        formatter: function (params, ticket, callback) {
+                            //根据业务自己拓展要显示的内容
+                            var res = "";
+                            var name = params.name;
+                            var value = params.value[params.seriesIndex +2];
+                            res =
+                                "<span style='color:#fff;'>" +
+                                name +
+                                "</span><br/>电影数：" +
+                                value;
+                            return res;
+                        }
+                    },
+                    visualMap: {
+                        //图例值控制
+                        min: 0,
+                        max: 10000,
+                        show: false,
+                        calculable: true,
+                        color: ["#0bc7f3"],
+                        textStyle: {
+                            color: "#fff"
+                        },
+
+                    },
+                    geo: {
+                        map: "world",
+                        label: {
+                            emphasis: {
+                                show: false
+                            }
+                        },
+                        roam: true, //是否允许缩放
+                        layoutCenter: ["50%", "50%"], //地图位置
+                        layoutSize: "180%",
+                        itemStyle: {
+                            normal: {
+                                color: "#04284e", //地图背景色
+                                borderColor: "#5bc1c9" //省市边界线
+                            },
+                            emphasis: {
+                                color: "rgba(37, 43, 61, .5)" //悬浮背景
+                            }
+                        }
+                    },
+
+                    series: series
+                })
+         },
+              error:function (msg) {
+             console.log(msg);
+                alert('系统发生错误');
+            }
+        })
+    };
+
+</script>
+    <script src="/static/assets/js/jquery.min.js"></script>
+			<script src="/static/assets/js/browser.min.js"></script>
+			<script src="/static/assets/js/breakpoints.min.js"></script>
+			<script src="/static/assets/js/util.js"></script>
+			<script src="/static/assets/js/main.js"></script>
+
+</body>
+
+</html>

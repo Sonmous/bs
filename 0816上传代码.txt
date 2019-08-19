@@ -1,0 +1,451 @@
+<style>
+.rz_box1_div{
+	margin:0 auto;
+	max-width:100%;
+	position:relative;
+}
+#adContentDiv{
+		width:100%; 
+		margin:auto;
+		margin-top:0;
+}
+
+#header {
+    background-color:white;
+    text-align:center;
+    padding:5px;
+    height: 100px
+}
+.nav {
+    margin-bottom: 20px;
+    background-color:#eeeeee;
+		height:400px;
+}
+.nav .center {
+    width: 1000px;
+    height: 300px;
+    background: #eeeeee;
+    margin: auto;
+}
+/*登录框*/
+.login_border {
+  margin-top: 20px;
+  float: right;  background:rgba(255,255,255,.6);}
+.login { width: 330px; min-height: 320px; padding-bottom:10px; background: #fff; position: relative;}
+.login input { font-family:'Microsoft YaHei'; outline:none;}
+.login input:focus { box-shadow: 0 0 5px rgba(46, 141, 237, 0.3); border: 1px solid rgba(46, 141, 237, 0.5) !important; }
+.login-body { padding: 10px 50px 0; overflow: hidden; }
+.login ul { overflow: hidden; width:310px; padding-left:20px; border-bottom:1px solid #e7e7e7; height: 46px; }
+.login ul li { float: left; width: 60px; text-align: center; height: 45px; margin:0 10px; line-height: 46px; border-bottom:1px solid #fff; cursor: pointer; }
+.login ul li em { width: 0; height: 0; border-left: 5px solid transparent; border-right: 5px solid transparent; border-top: 5px solid #f60; position: absolute; top: 26px; left: 56px; opacity: 0; }
+.login-style { display: none; }
+.login-on { color: #2360ff; font-size:14px; border-bottom:1px solid #1dff6a !important;}
+.login-on em { opacity: 1 !important; }
+/*登录框控件*/
+.login dl { margin-top: 20px; }
+.login dl dt { height: 25px; line-height: 25px; color: #777; width: 240px; font-weight: bold; }
+.login dl dt a { color: #39f; }
+.login dd input[type=text],.login dl dd input[type=password] { border: solid 1px #d6d6d6; height: 34px; line-height: 28px\9; width: 200px; padding-left: 30px; border-radius:3px; }
+/*提示*/
+.tishi {margin-left:30px; ;line-height: 26px; color: red; margin-top: 10px; font-size: 15px;}
+.remember { margin-top:15px; margin-left:-20px;}
+.remember input[type=checkbox] { vertical-align: middle; margin-right: 5px; }
+.remember label { color: #999;}
+.btn_mfyzm { width: 90px;margin-left: 10px;height: 36px; background: #f0f0f0; border: 1px solid #d6d6d6; border-radius:3px; cursor:pointer;}
+.login button { width: 230px;
+   border: 0;
+   background: #23ac48; border-radius: 3px;
+   height: 40px;
+   color: #fff;
+   cursor: pointer;
+   margin-top: 10px;
+   margin-left: 0px;
+   font-size:16px;
+  font-family: 'Microsoft YaHei';  }
+#phone{background:url(http://10.92.8.7/ngProxy/images/XJCcGpLRQtUieqkBkfgEifMUzSPlECdc/20190816/1565917436508.png) no-repeat 6px center;background-size:22px;}
+#dynamicPWD { background:url(http://10.92.8.7/ngProxy/images/XJCcGpLRQtUieqkBkfgEifMUzSPlECdc/20190816/1565917433808.png) no-repeat 6px center;background-size:22px;}
+/*二维码*/
+.app_login { position:relative; padding:35px 50px 0;}
+.app_login h1 { text-align:center; background:#ffebeb; color:#e4393c; border:1px solid #FFAEAF; padding-left:25px; line-height:32px;display:none}
+.app_login h1 i { width:16px; height:16px; background:#e4393c; color:#fff; font-weight:bold; line-height:16px; text-align:center; border-radius:100%; position:absolute; margin:8px 0 0 -25px; font-size:17px;}
+.app_login h2 { text-align:center; font-size:16px; font-family:'Microsoft YaHei'; color:#888; line-height:32px;}
+.app_code { border: 1px solid #e1e1e1; padding: 10px; width: 155px; margin: 15px auto; font-size:0;}
+.app_code img { width:100%; height:100%;}
+.shuaxin { text-align:center;}
+.shuaxin span{ padding: 0 10px; width:155px; line-height: 30px;display: inline-block; border-radius: 3px; cursor: pointer; background:#23ac48; color:#fff; margin-bottom:8px;}
+.qiehuan { width:60px; height:60px; position:absolute; right:0; bottom:0; background:url(http://10.92.8.7/ngProxy/images/XJCcGpLRQtUieqkBkfgEifMUzSPlECdc/20190731/1564514261333.png) no-repeat right top; cursor:pointer;}
+
+/*免责声明*/
+/*声明*/
+.uplayer { overflow: auto; position: absolute; top: 0; left: 0; z-index: 9999; width: 100%;height: 100%;background-color: rgba(0,0,0,0.4); _background-color: #BDC9D7; font-size: 14px; display: none;}
+.uplayer .inner { background: #FFF; padding: 20px; position: relative; margin:25px;min-height:80%; word-wrap:break-word;word-break:break-all;}
+.codePic { position: absolute; top: 50%; left: 50%; margin: -145px 0 0 -128px; }
+.close { font-size: 32px; line-height: 24px; text-align: center; background: #666; width: 30px; height: 30px; display: block; -webkit-border-radius: 15px; -moz-border-radius: 15px; border-radius: 15px; border: 2px solid #FFF; overflow: hidden; color: #FFF; margin-left: auto; position: absolute; top: -15px; right: -15px; }
+.close:hover { background-color: #999; color: #FFF; }
+.statement h1 { font-size: 16px; margin: 1em 0; text-align: center }
+.statement ol { list-style: decimal }
+.statement ol li { margin-left: 4em !important; }
+.statement p { text-indent: 2em; margin: .5em 0; }
+.statement .statement-content { padding: 10px; }
+.static-container { width: 630px; height: 390px; background: #FFF; position: relative; }
+.static-container .statement-content { overflow: auto; background: #036; color: #FFF; font-size: 120%; height: 100%; padding: 0px; }
+.statement-container h1 { font-size: 160% !important; }
+.static-container .inner { padding: 0 10px 30px 10px; }
+
+
+
+
+#footer {
+    background-color:black;
+    color:white;
+    clear:both;
+    text-align:center;
+    padding:5px;
+}
+#kuangjia
+{
+  width:640px;
+  height:400px;
+  float: left;
+  solid 2px;
+  background-size:cover;
+  background-repeat:no-repeat;}
+.t1
+{width:40px;
+  height:40px;
+  background-repeat:no-repeat;
+  background-size:contain;
+  cursor:pointer;}
+#kuangjia:hover #t3{
+                 display:block;
+             }
+#kuangjia:hover #t2{
+display:block;
+             }
+#t2
+{float:left;
+  margin:180px 0px 0px 0px;
+  background: #393939;
+  background-image:url(http://10.92.8.7/ngProxy/images/XJCcGpLRQtUieqkBkfgEifMUzSPlECdc/20190816/1565917658073.png);
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.3);
+  display: none;
+  transition:all.5s;
+}
+#t3
+{float:right;
+ margin:180px 0px 0px 0px;
+ background: #393939;
+ background-image:url(http://10.92.8.7/ngProxy/images/XJCcGpLRQtUieqkBkfgEifMUzSPlECdc/20190816/1565917694191.png);
+ box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.3);
+ display: none;
+ transition:all.5s;
+}
+body{
+background-color:#eeeeee;
+}
+</style>
+<script src="http://10.92.8.7:80/js/common/jquery/jquery-1.8.0.min.js"></script>
+<script src="http://10.92.8.7:80/js/common/swiper.jquery.min.js"></script>
+<script language="javascript" src="http://10.92.8.7/ngProxy/images/XJCcGpLRQtUieqkBkfgEifMUzSPlECdc/20190816/sxiT-alter.js"></script>
+
+<div id="header">
+<img src="http://10.92.8.7/ngProxy/images/XJCcGpLRQtUieqkBkfgEifMUzSPlECdc/20190816/1565917450952.png"/>
+</div>
+<div id="footer" style="height:10px;">
+</div>
+<div class="nav" style="padding:20px 0px 10px;">
+<div class="center">
+<div id="kuangjia"><!--大div作为框架——广告-->
+    <div class="t1" id="t2" onclick="(dd(-1))"></div>
+    <div class="t1" id="t3" onclick="(dd(1))"></div>
+</div>
+<div class="login_border" style="padding:8px;">
+			<div class="login" style="display: block;">
+				<ul class="login-tab">
+				<li class="login-on">手机登录</li>
+</ul>
+<div class="login-body">
+<div class="login-style" style="display: block;padding-left: 18px;width:300px;padding-top: 10px;"><!--手机登录框-->
+						<dd><input name="phone" type="text" id="phone" placeholder="您的手机号码" /></dd>
+						<dl>
+	<dd><input type="text" id="dynamicPWD" style="width: 102px;" placeholder="短信验证码" /><input type="button" id="btn" class="btn_mfyzm" value="获取动态密码" onclick="sendMessage()"  /></dd>
+          </dl>
+          <div class="remember">
+							<input type="checkbox" id="issave" /><label label for="issave1" style="font-size:13px">我已阅读并同意免责声明条款</label> <a href="javascript:void(0);" onClick="showDisclaimer()" id="xianshi" style="font-size:13px">查看详情</a></dd>
+						</div>
+
+						<div class="tishi"></div>
+						<button type="button" id="dynamicLogon" onclick="authOnline()"style="outline:none; margin-left:-13px;">登 录</button>
+					</div>
+        </div>
+
+				</div>
+    <!--扫码登录框-->
+     <div class="login" style="display: none;">
+				<i class="qiehuan" style="background-position:left bottom;"></i>
+				<div class="app_login">
+					<h1><i>-</i>登录失败，请刷新二维码后重试！</h1>
+					<h2>关注微信公众号&nbsp;&nbsp;扫码安全登录</h2>
+				</div>
+				<div class="app_code"><img id="appLoginCode" src="" /></div>
+				<div class="shuaxin">
+					<span>刷新二维码</span>
+					<p><a href="javascript:;" target="_blank">查看使用帮助</a></p>
+				</div>
+			</div>
+
+        </div>
+		</div>
+
+</div>
+<div id="footer">
+<p>Copyright(C)2007 psbc.com 　All Rights Reserved 中国邮政储蓄银行 版权所有 京ICP备07021605号</p>
+</div>
+<!-- 免责声明条款 -->
+  <div id="statement" class="statement uplayer">
+    <div class="inner">
+      <div><a id="hideStatement" href="javascript:void(0);" onClick="hideDisclaimer()" class="close">×</a></div>
+      <div class="statement-content">
+        ?
+<H1 style="TEXT-ALIGN: center">温馨提示</H1>
+<P>尊敬的用户:</P>
+<P>欢迎您使用中国邮政储蓄银行(下称“我单位”)提供的无线网络，现将有关注意事项温馨提示如下：</P>
+<P>1、使用过程中，请注意自行甄别非法链接、钓鱼网站和其他诈骗信息，妥善保管个人信息，确保个人信息安全和财产安全，因此遭受的任何损失与我单位无关；</P>
+<P>2、使用过程中，请务必遵守国家相关法律法规和公共道德，勿发布、传播有违法律法规和社会公德的言论和信息，您所发布和传播的一切言论和信息由您自行担责；</P>
+<P>3、因通讯线路故障、计算机病毒、黑客攻击及其他各种不可抗力原因而导致您遭受的一切损失，您须自行承担如您已开始使用我单位的无线网络，则意味着已仔细阅读并已接受上述提示内容。<BR></P>
+
+
+
+      </div>
+    </div>
+  </div>
+
+
+
+<script type="text/javascript">
+var messageWaitTime = 60;
+//图片轮播
+var jh=new Array();
+jh[0]="url(http://10.92.8.7/ngProxy/images/XJCcGpLRQtUieqkBkfgEifMUzSPlECdc/20190816/1565917440943.jpg)";
+jh[1]="url(http://10.92.8.7/ngProxy/images/XJCcGpLRQtUieqkBkfgEifMUzSPlECdc/20190816/1565917442788.jpg)";
+jh[2]="url(http://10.92.8.7/ngProxy/images/XJCcGpLRQtUieqkBkfgEifMUzSPlECdc/20190816/1565917448188.jpg)";
+jh[3]="url(http://10.92.8.7/ngProxy/images/XJCcGpLRQtUieqkBkfgEifMUzSPlECdc/20190816/1565917446545.jpg)";
+var kj=document.getElementById("kuangjia");<!--获取框架div的标签，在下面进行更改背景-->
+var x=-1;<!--定义变量x，建立索引-->
+var l=jh.length;<!--获取集合中元素个数-->
+function lb()
+{
+    x++;
+    if (x==l)
+    {
+        x=0;
+    }
+    kj.style.backgroundImage=jh[x];
+    window.setTimeout("lb()",4000);<!--2s后再次播放集合中的图片-->
+}
+window.setTimeout("lb()",0);<!--开始进行轮播-->
+
+function dd(m)
+{
+    x=x+m;
+    if(x==l)
+    {x=0;}
+    else if(x==-1)
+    {x=l;}
+    kj.style.backgroundImage=jh[x];
+}
+//切换二维码登录
+$(".qiehuan").click(function (){
+	$(this).parents(".login").hide().siblings().show();
+});
+//显示免责声明
+function showDisclaimer(){
+  $("#statement").show();
+}
+function hideDisclaimer(){
+
+  $("#statement").hide();
+
+}
+//登录
+
+function Tip(msg) {
+	$(".tishi").show().text(msg);
+}
+
+function messageWait() {
+	$("#btn").attr("disabled", true);
+	$("#btn").val(messageWaitTime + '秒');
+	messageWaitTime--;
+	if (messageWaitTime <= 0) {
+		$("#btn").attr("disabled", false);
+		$("#btn").val("获取验证码");
+		return;
+	} else {
+		setTimeout("messageWait()", 1000);
+	}
+}
+
+
+
+//短信验证码接口
+function sendMessage(){
+  var phoneNum = $("#phone").val();
+  if(phoneNum.length != 11){//验证手机号码
+	  myAlert("系统提示","请您输入正确的手机号码");
+  }
+  
+  //调用发送短信函数sendSMS()
+  sendSMS("#phone");
+ 
+}
+
+//处理发送短信结果的回调函数messageResult(resStatus)
+//返回值：'succ'和'fail'分别表示发送短信成功和失败
+function messageResult(resStatus){
+	if(resStatus == 'succ'){
+		myAlert("系统提示","发送短信成功！");
+                 messageWait();
+	}else if(resStatus == 'fail'){
+		myAlert("系统提示","发送短信失败！");
+	}
+}
+
+//处理认证结果的函数demo；内部调用了authenticate()函数接口，其中type值为1，例如：
+function authOnline(){
+  //result表示调用认证上网函数authenticate()的返回值：'succ'和'fail'分别表示认证成功和失败
+  //authenticate()函数中，短信密码认证的type值为1
+  if($("#issave").attr("checked") != "checked" ){
+  myAlert("系统提示","请先阅读免责声明，并勾选！");
+// Tip('请先阅读免责声明，并勾选！');
+    $("#issave").focus();
+    return;
+  }else {
+/*
+ authenticate(1, '#phone', '#dynamicPWD', function (result) {
+  if(result == 'succ'){
+ 
+  //这里可以编写任意认证上网成功的页面效果，例如：
+    alert("认证成功，可以上网啦！");
+   
+  }else if(result == 'fail'){
+   alert($("#phone").val());
+   alert($("#dynamicPWD").val());
+  //这里可以编写任意认证上网失败的页面效果,例如：
+   alert("手机号或者验证码错误");
+  }
+});
+*/
+  var phoneNumber = $('#phone').val();
+      var msgCode = $('#dynamicPWD').val();
+  	var sURL = "http://10.92.8.7:80/auth/servlet/sms/smsServlet?oprType=check";
+	$.post(sURL,{"phoneNumber":phoneNumber,"msgCode":msgCode},function(data) {
+		if(data.state) {
+			doParams();
+		} else {
+			myAlert("系统提示",data.message);
+		}
+	},"json");
+}
+}
+//通告设备放行，并让设备通告mcp上线
+function doDevice(params) {
+	var phoneNumber = $('#phone').val();
+	var deviceIp = params.deviceIpEncode;
+	var port = params.portEncode;
+	var devAuthUrl = "http://"+ deviceIp +":"+ port +"/auth?stage=logon&authType=dx";
+	devAuthUrl += "&extend=" + wxWifiKey;
+	devAuthUrl += "&phoneNumber=" + phoneNumber;
+	window.location = devAuthUrl;
+    //window.location.href = "http:www.psbc.com"
+	//window.location.href = "http:www.psbc.com"
+	
+}
+
+
+//获取参数用于通告设备上线
+function doParams() {
+	var phoneNumber = $('#phone').val();
+	var sURL = "http://10.92.8.7:80/auth/servlet/standardServlet?oprType=wxWifiKey";
+	var params = {wxWifiKey:wxWifiKey,phoneNumber:phoneNumber,authType:"dx"};
+	$.post(sURL,params,function(data) {
+		if(data.state) {
+			doDevice(data);
+			
+		} else {
+			myAlert("系统提示",data.message);
+		}
+	},"json");
+}
+</script>
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
